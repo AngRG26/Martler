@@ -4,6 +4,7 @@ import type { CartItem } from "@/types/cart";
 
 export type CartState = {
   items: CartItem[];
+  hasHydrated: boolean;
 };
 
 export type CartActions = {
@@ -11,11 +12,12 @@ export type CartActions = {
   removeItem: (productId: string) => void;
   changeQuantity: (productId: string, delta: number) => void;
   clear: () => void;
+  setHasHydrated: (value: boolean) => void;
 };
 
 export type CartStore = CartState & CartActions;
 
-export const defaultCartState: CartState = { items: [] };
+export const defaultCartState: CartState = { items: [], hasHydrated: false };
 
 export const createCartStore = (initState: CartState = defaultCartState) =>
   createStore<CartStore>()(
@@ -55,8 +57,17 @@ export const createCartStore = (initState: CartState = defaultCartState) =>
             ),
           })),
 
-        clear: () => set(defaultCartState),
+        clear: () => set({ items: [] }),
+        setHasHydrated: (value) => set({ hasHydrated: value }),
       }),
-      { name: "martler-cart" },
+      {
+        name: "martler-cart", // ← 추가: localStorage에는 items만 저장
+        partialize: (state) => ({ items: state.items }),
+
+        // ← 추가: 불러오기가 끝나면 hasHydrated를 true로
+        onRehydrateStorage: () => (state) => {
+          state?.setHasHydrated(true);
+        },
+      },
     ),
   );
