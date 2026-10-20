@@ -5,6 +5,8 @@ export const MART_LABEL: Record<MartId, string> = {
   lottemart: "롯데마트",
 };
 
+export const MARTS: MartId[] = ["emart", "lottemart"];
+
 export type MartPrice = {
   price: number; // 원 단위 숫자. "2,980원" 같은 표시는 화면에서 처리
   isSale: boolean; // 행사가 여부
