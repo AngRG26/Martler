@@ -77,3 +77,9 @@ export function compareCart(
     difference: max - min,
   };
 }
+
+// '2026-09-25' → '9월 25일'
+export function formatSurveyDate(date: string) {
+  const [, month, day] = date.split("-").map(Number);
+  return `${month}월 ${day}일`;
+}
