@@ -5,7 +5,7 @@ type CartHeaderProps = {
 };
 
 // 매장 선택 기능은 아직 없어서 임시 고정값
-const SELECTED_STORES_LABEL = "이마트 가양점 · 롯데마트 서울역점";
+const SELECTED_STORES_LABEL = "이마트 가양점, 롯데마트 서울역점";
 
 export function CartHeader({ itemCount }: CartHeaderProps) {
   return (

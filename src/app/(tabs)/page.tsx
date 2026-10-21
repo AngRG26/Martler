@@ -4,11 +4,14 @@ import { useCartStore } from "@/stores/cart-store-provider";
 import { CartHeader } from "@/components/cart-header";
 import { CartItemCard } from "@/components/cart-item-card";
 import { mockPriceSnapshot } from "@/mocks/prices";
+import { CartSummaryBar } from "@/components/cart-summary-bar";
+import { compareCart } from "@/lib/price";
 
 export default function Home() {
   const items = useCartStore((s) => s.items);
   const hasHydrated = useCartStore((s) => s.hasHydrated);
   const addItem = useCartStore((s) => s.addItem);
+  const comparison = compareCart(items, mockPriceSnapshot.products);
   // changeQuantity, removeItem은 카드가 직접 쓰니까 삭제
 
   return (
@@ -58,15 +61,18 @@ export default function Home() {
         ) : items.length === 0 ? (
           <p>장바구니가 비어 있어요</p>
         ) : (
-          <ul className="flex flex-col gap-2.5">
-            {items.map((item) => (
-              <CartItemCard
-                key={item.productId}
-                item={item}
-                product={mockPriceSnapshot.products[item.productId]}
-              />
-            ))}
-          </ul>
+          <>
+            <ul className="flex flex-col gap-2.5 pb-48">
+              {items.map((item) => (
+                <CartItemCard
+                  key={item.productId}
+                  item={item}
+                  product={mockPriceSnapshot.products[item.productId]}
+                />
+              ))}
+            </ul>
+            <CartSummaryBar comparison={comparison} />
+          </>
         )}
       </div>
     </div>
