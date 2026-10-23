@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_KR } from "next/font/google";
 import { CartStoreProvider } from "@/stores/cart-store-provider";
+import { ListStoreProvider } from "@/stores/list-store-provider";
 import "./globals.css";
 
 const plexSansKr = IBM_Plex_Sans_KR({
@@ -28,9 +29,11 @@ export default function RootLayout({
     <html lang="ko" className={plexSansKr.variable}>
       <body className="bg-canvas font-sans text-ink antialiased">
         <CartStoreProvider>
-          <div className="mx-auto min-h-dvh max-w-[480px] bg-canvas">
-            {children}
-          </div>
+          <ListStoreProvider>
+            <div className="mx-auto min-h-dvh max-w-[480px] bg-canvas">
+              {children}
+            </div>
+          </ListStoreProvider>
         </CartStoreProvider>
       </body>
     </html>
