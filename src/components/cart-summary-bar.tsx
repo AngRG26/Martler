@@ -4,12 +4,17 @@ import {
   type CartComparison,
   type ExcludedItem,
 } from "@/lib/price";
+import { ConfirmListButton } from "./confirm-list-button";
 
 type CartSummaryBarProps = {
   comparison: CartComparison;
+  surveyedAt: string; // 추가
 };
 
-export function CartSummaryBar({ comparison }: CartSummaryBarProps) {
+export function CartSummaryBar({
+  comparison,
+  surveyedAt,
+}: CartSummaryBarProps) {
   const { totals, comparedCount, excluded, cheaperMarts, difference } =
     comparison;
   const canCompare = comparedCount > 0;
@@ -63,13 +68,7 @@ export function CartSummaryBar({ comparison }: CartSummaryBarProps) {
         )}
       </div>
 
-      {/* TODO: 내 리스트 만들 때 onClick 연결 */}
-      <button
-        type="button"
-        className="min-h-[52px] rounded-xl bg-brand text-base font-semibold text-white"
-      >
-        리스트 확정
-      </button>
+      <ConfirmListButton comparison={comparison} surveyedAt={surveyedAt} />
     </section>
   );
 }

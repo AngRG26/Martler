@@ -54,7 +54,10 @@ export default function Home() {
                 />
               ))}
             </ul>
-            <CartSummaryBar comparison={comparison} />
+            <CartSummaryBar
+              comparison={comparison}
+              surveyedAt={mockPriceSnapshot.surveyedAt}
+            />
           </>
         )}
       </div>
