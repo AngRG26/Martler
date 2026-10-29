@@ -2,6 +2,8 @@ import type { CartItem } from "@/types/cart";
 import type { CartComparison } from "@/lib/price";
 import type { ShoppingList } from "@/types/list";
 
+const SUMMARY_LIMIT = 4;
+
 export function createId() {
   // randomUUID는 https나 localhost에서만 쓸 수 있어요
   if (
@@ -35,4 +37,21 @@ export function createShoppingList(
           }
         : null,
   };
+}
+
+// "서울우유 1L ×2, 대파 1단, ... 외 2개"
+export function summarizeItems(items: CartItem[]) {
+  const names = items.map((item) =>
+    item.quantity > 1 ? `${item.name} ×${item.quantity}` : item.name,
+  );
+  if (names.length <= SUMMARY_LIMIT) return names.join(", ");
+  return `${names.slice(0, SUMMARY_LIMIT).join(", ")} 외 ${names.length - SUMMARY_LIMIT}개`;
+}
+
+// '2026-10-25T12:10:00.000Z' → '10.25'
+export function formatConfirmedDate(iso: string) {
+  const date = new Date(iso);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${month}.${day}`;
 }
