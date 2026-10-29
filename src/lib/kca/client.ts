@@ -26,7 +26,7 @@ async function requestKca<T>(
     url.searchParams.set(name, value);
   }
 
-  const res = await fetch(url, { cache: "no-store" }); // 캐시는 3단계에서
+  const res = await fetch(url, { next: { revalidate: 60 * 60 * 6 } }); // 6시간
   if (!res.ok) throw new Error(`참가격 API 응답 오류: HTTP ${res.status}`);
 
   const xml = await res.text();
