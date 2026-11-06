@@ -8,11 +8,13 @@ import { CartSummaryBar } from "@/components/cart-summary-bar";
 import { compareCart, formatSurveyDate } from "@/lib/price";
 import { FavoriteChips } from "@/components/favorite-chips";
 import { mockFavorites } from "@/mocks/favorites";
+import { useMartLabels } from "@/stores/mart-store-provider";
 
 export default function Home() {
   const items = useCartStore((s) => s.items);
   const hasHydrated = useCartStore((s) => s.hasHydrated);
   const comparison = compareCart(items, mockPriceSnapshot.products);
+  const labels = useMartLabels();
 
   return (
     <div className="min-h-dvh bg-canvas">
@@ -57,6 +59,7 @@ export default function Home() {
             <CartSummaryBar
               comparison={comparison}
               surveyedAt={mockPriceSnapshot.surveyedAt}
+              labels={labels}
             />
           </>
         )}

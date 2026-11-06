@@ -1,4 +1,4 @@
-import { MART_SLOTS, MART_LABEL } from "@/types/price";
+import { MART_SLOTS, type MartSlot } from "@/types/price";
 import {
   formatPrice,
   type CartComparison,
@@ -8,12 +8,14 @@ import { ConfirmListButton } from "./confirm-list-button";
 
 type CartSummaryBarProps = {
   comparison: CartComparison;
-  surveyedAt: string; // 추가
+  surveyedAt: string;
+  labels: Record<MartSlot, string>; // 추가
 };
 
 export function CartSummaryBar({
   comparison,
   surveyedAt,
+  labels,
 }: CartSummaryBarProps) {
   const { totals, comparedCount, excluded, cheaperMarts, difference } =
     comparison;
@@ -24,7 +26,7 @@ export function CartSummaryBar({
   if (!canCompare) {
     headline = "비교할 수 있는 상품이 없어요";
   } else if (cheaper) {
-    headline = `${MART_LABEL[cheaper]}이 ${formatPrice(difference)} 더 저렴해요.`;
+    headline = `${labels[cheaper]}이 ${formatPrice(difference)} 더 저렴해요.`;
   } else {
     headline = "두 마트 가격이 같아요";
   }
@@ -48,7 +50,10 @@ export function CartSummaryBar({
             </p>
             {excluded.length > 0 && (
               <p className="text-xs text-muted">
-                비교에서 뺀 상품: {excluded.map(describeExcluded).join(", ")}
+                비교에서 뺀 상품:{" "}
+                {excluded
+                  .map((item) => describeExcluded(item, labels))
+                  .join(", ")}
               </p>
             )}
             <div className="flex gap-4 text-[13px]">
@@ -57,7 +62,7 @@ export function CartSummaryBar({
                   key={mart}
                   className={mart === cheaper ? "text-brand" : "text-muted"}
                 >
-                  {MART_LABEL[mart]}{" "}
+                  {labels[mart]}{" "}
                   <span className="font-semibold tabular-nums">
                     {formatPrice(totals[mart])}
                   </span>
@@ -73,10 +78,12 @@ export function CartSummaryBar({
   );
 }
 
-function describeExcluded({ name, missingMarts }: ExcludedItem) {
-  // 모든 마트에 없으면 마트 이름 대신 "가격 정보 없음"
+function describeExcluded(
+  { name, missingMarts }: ExcludedItem,
+  labels: Record<MartSlot, string>,
+) {
   if (missingMarts.length === MART_SLOTS.length)
     return `${name} (가격 정보 없음)`;
-  const marts = missingMarts.map((mart) => MART_LABEL[mart]).join(", ");
-  return `${name} (${marts}에는 가격정보가 없음)`;
+  const marts = missingMarts.map((mart) => labels[mart]).join(", ");
+  return `${name} (${marts} 가격 없음)`;
 }

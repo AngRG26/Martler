@@ -10,6 +10,7 @@ import {
 } from "@/types/price";
 import { formatPrice, getBestMarts } from "@/lib/price";
 import { useCartStore } from "@/stores/cart-store-provider";
+import { useMartLabels } from "@/stores/mart-store-provider";
 
 type CartItemCardProps = {
   item: CartItem;
@@ -20,6 +21,8 @@ export function CartItemCard({ item, product }: CartItemCardProps) {
   const changeQuantity = useCartStore((s) => s.changeQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
   const bestMarts = product ? getBestMarts(product) : [];
+
+  const labels = useMartLabels();
 
   return (
     <li className="flex flex-col gap-2.5 rounded-[14px] bg-white p-3.5 shadow-[0_1px_2px_rgba(15,27,45,0.06)]">
@@ -71,7 +74,7 @@ export function CartItemCard({ item, product }: CartItemCardProps) {
         {MART_SLOTS.map((mart) => (
           <PriceCell
             key={mart}
-            mart={mart}
+            label={labels[mart]} // 추가
             price={product?.prices[mart]}
             isBest={bestMarts.includes(mart)}
           />
@@ -82,12 +85,12 @@ export function CartItemCard({ item, product }: CartItemCardProps) {
 }
 
 type PriceCellProps = {
-  mart: MartSlot;
+  label: string; // 추가
   price: MartPrice | undefined;
   isBest: boolean;
 };
 
-function PriceCell({ mart, price, isBest }: PriceCellProps) {
+function PriceCell({ label, price, isBest }: PriceCellProps) {
   return (
     <div
       className={`flex flex-col gap-0.5 rounded-[10px] border px-2.5 py-2 ${
@@ -95,7 +98,7 @@ function PriceCell({ mart, price, isBest }: PriceCellProps) {
       }`}
     >
       <div className="flex items-center justify-between">
-        <span className="text-xs text-muted">{MART_LABEL[mart]}</span>
+        <span className="text-xs text-muted">{label}</span>
         <span className="flex gap-1">
           {price?.isSale && (
             <span className="rounded bg-sale-soft px-1.5 py-0.5 text-[11px] font-semibold text-sale">

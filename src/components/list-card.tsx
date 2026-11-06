@@ -1,7 +1,8 @@
 import type { ShoppingList } from "@/types/list";
-import { MART_SLOTS, MART_LABEL } from "@/types/price";
+import { MART_SLOTS } from "@/types/price";
 import { formatPrice, formatSurveyDate } from "@/lib/price";
 import { formatConfirmedDate, summarizeItems } from "@/lib/list";
+import { shortMartName } from "@/lib/mart";
 
 type ListCardProps = {
   list: ShoppingList;
@@ -55,10 +56,16 @@ function PriceSummary({ summary }: PriceSummaryProps) {
     );
   }
 
+  // 확정 당시 매장 이름
+  const labels = {
+    home: shortMartName(summary.marts.home.name),
+    rival: shortMartName(summary.marts.rival.name),
+  };
+
   const cheaper =
     summary.cheaperMarts.length === 1 ? summary.cheaperMarts[0] : null;
   const headline = cheaper
-    ? `동일한 ${summary.comparedCount}개 상품 기준 ${MART_LABEL[cheaper]}이 ${formatPrice(summary.difference)} 더 저렴했어요.`
+    ? `동일한 ${summary.comparedCount}개 상품 기준 ${labels[cheaper]}이 ${formatPrice(summary.difference)} 더 저렴했어요.`
     : "두 마트 가격이 같았어요.";
 
   return (
@@ -77,7 +84,7 @@ function PriceSummary({ summary }: PriceSummaryProps) {
             key={mart}
             className={mart === cheaper ? "text-brand" : "text-muted"}
           >
-            {MART_LABEL[mart]}{" "}
+            {labels[mart]}{" "}
             <span className="font-semibold tabular-nums">
               {formatPrice(summary.totals[mart])}
             </span>

@@ -3,6 +3,7 @@ import { IBM_Plex_Sans_KR } from "next/font/google";
 import { CartStoreProvider } from "@/stores/cart-store-provider";
 import { ListStoreProvider } from "@/stores/list-store-provider";
 import "./globals.css";
+import { MartStoreProvider } from "@/stores/mart-store-provider";
 
 const plexSansKr = IBM_Plex_Sans_KR({
   weight: ["400", "500", "600", "700"],
@@ -30,9 +31,11 @@ export default function RootLayout({
       <body className="bg-canvas font-sans text-ink antialiased">
         <CartStoreProvider>
           <ListStoreProvider>
-            <div className="mx-auto min-h-dvh max-w-[480px] bg-canvas">
-              {children}
-            </div>
+            <MartStoreProvider>
+              <div className="mx-auto min-h-dvh max-w-[480px] bg-canvas">
+                {children}
+              </div>
+            </MartStoreProvider>
           </ListStoreProvider>
         </CartStoreProvider>
       </body>

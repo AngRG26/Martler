@@ -5,6 +5,7 @@ import { useCartStore } from "@/stores/cart-store-provider";
 import { useListStore } from "@/stores/list-store-provider";
 import { createShoppingList } from "@/lib/list";
 import type { CartComparison } from "@/lib/price";
+import { useMartStore } from "@/stores/mart-store-provider";
 
 type ConfirmListButtonProps = {
   comparison: CartComparison;
@@ -19,10 +20,11 @@ export function ConfirmListButton({
   const items = useCartStore((s) => s.items);
   const clear = useCartStore((s) => s.clear);
   const addList = useListStore((s) => s.addList);
+  const marts = useMartStore((s) => s.marts); // 추가
 
   const handleConfirm = () => {
     if (items.length === 0) return;
-    addList(createShoppingList(items, comparison, surveyedAt));
+    addList(createShoppingList(items, comparison, surveyedAt, marts));
     clear();
     router.push("/lists");
   };

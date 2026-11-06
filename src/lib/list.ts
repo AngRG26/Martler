@@ -1,6 +1,7 @@
 import type { CartItem } from "@/types/cart";
 import type { CartComparison } from "@/lib/price";
 import type { ShoppingList } from "@/types/list";
+import type { SelectedMarts } from "@/types/mart";
 
 const SUMMARY_LIMIT = 4;
 
@@ -19,6 +20,7 @@ export function createShoppingList(
   items: CartItem[],
   comparison: CartComparison,
   surveyedAt: string,
+  marts: SelectedMarts, // 추가
   now: Date = new Date(),
 ): ShoppingList {
   return {
@@ -34,6 +36,7 @@ export function createShoppingList(
             cheaperMarts: comparison.cheaperMarts,
             difference: comparison.difference,
             surveyedAt,
+            marts,
           }
         : null,
   };

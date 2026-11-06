@@ -1,9 +1,10 @@
 import type { CartItem } from "./cart";
 import type { CartComparison } from "@/lib/price";
+import type { SelectedMarts } from "./mart";
 
-// 확정 당시의 가격 비교 결과 (제외 목록은 빼고 조사일을 더함)
 export type ListPriceSummary = Omit<CartComparison, "excluded"> & {
   surveyedAt: string;
+  marts: SelectedMarts; // 추가: 확정 당시의 내 매장, 비교 지점
 };
 
 export type ShoppingList = {
