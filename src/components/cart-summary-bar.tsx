@@ -1,4 +1,4 @@
-import { MARTS, MART_LABEL } from "@/types/price";
+import { MART_SLOTS, MART_LABEL } from "@/types/price";
 import {
   formatPrice,
   type CartComparison,
@@ -24,7 +24,7 @@ export function CartSummaryBar({
   if (!canCompare) {
     headline = "비교할 수 있는 상품이 없어요";
   } else if (cheaper) {
-    headline = `${MART_LABEL[cheaper]}가 ${formatPrice(difference)} 더 저렴해요.`;
+    headline = `${MART_LABEL[cheaper]}이 ${formatPrice(difference)} 더 저렴해요.`;
   } else {
     headline = "두 마트 가격이 같아요";
   }
@@ -52,7 +52,7 @@ export function CartSummaryBar({
               </p>
             )}
             <div className="flex gap-4 text-[13px]">
-              {MARTS.map((mart) => (
+              {MART_SLOTS.map((mart) => (
                 <span
                   key={mart}
                   className={mart === cheaper ? "text-brand" : "text-muted"}
@@ -75,7 +75,8 @@ export function CartSummaryBar({
 
 function describeExcluded({ name, missingMarts }: ExcludedItem) {
   // 모든 마트에 없으면 마트 이름 대신 "가격 정보 없음"
-  if (missingMarts.length === MARTS.length) return `${name} (가격 정보 없음)`;
+  if (missingMarts.length === MART_SLOTS.length)
+    return `${name} (가격 정보 없음)`;
   const marts = missingMarts.map((mart) => MART_LABEL[mart]).join(", ");
   return `${name} (${marts}에는 가격정보가 없음)`;
 }

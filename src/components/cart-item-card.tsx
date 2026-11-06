@@ -2,9 +2,9 @@
 
 import type { CartItem } from "@/types/cart";
 import {
-  MARTS,
+  MART_SLOTS,
   MART_LABEL,
-  type MartId,
+  type MartSlot,
   type MartPrice,
   type Product,
 } from "@/types/price";
@@ -68,7 +68,7 @@ export function CartItemCard({ item, product }: CartItemCardProps) {
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        {MARTS.map((mart) => (
+        {MART_SLOTS.map((mart) => (
           <PriceCell
             key={mart}
             mart={mart}
@@ -82,7 +82,7 @@ export function CartItemCard({ item, product }: CartItemCardProps) {
 }
 
 type PriceCellProps = {
-  mart: MartId;
+  mart: MartSlot;
   price: MartPrice | undefined;
   isBest: boolean;
 };

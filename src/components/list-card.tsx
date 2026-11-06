@@ -1,5 +1,5 @@
 import type { ShoppingList } from "@/types/list";
-import { MARTS, MART_LABEL } from "@/types/price";
+import { MART_SLOTS, MART_LABEL } from "@/types/price";
 import { formatPrice, formatSurveyDate } from "@/lib/price";
 import { formatConfirmedDate, summarizeItems } from "@/lib/list";
 
@@ -58,7 +58,7 @@ function PriceSummary({ summary }: PriceSummaryProps) {
   const cheaper =
     summary.cheaperMarts.length === 1 ? summary.cheaperMarts[0] : null;
   const headline = cheaper
-    ? `동일한 ${summary.comparedCount}개 상품 기준 ${MART_LABEL[cheaper]}가 ${formatPrice(summary.difference)} 더 저렴했어요.`
+    ? `동일한 ${summary.comparedCount}개 상품 기준 ${MART_LABEL[cheaper]}이 ${formatPrice(summary.difference)} 더 저렴했어요.`
     : "두 마트 가격이 같았어요.";
 
   return (
@@ -72,7 +72,7 @@ function PriceSummary({ summary }: PriceSummaryProps) {
         {formatSurveyDate(summary.surveyedAt)} 기준
       </p>
       <div className="flex gap-4 text-[13px]">
-        {MARTS.map((mart) => (
+        {MART_SLOTS.map((mart) => (
           <span
             key={mart}
             className={mart === cheaper ? "text-brand" : "text-muted"}
