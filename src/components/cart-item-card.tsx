@@ -31,7 +31,7 @@ export function CartItemCard({ item, product }: CartItemCardProps) {
           <span className="truncate text-[15px] font-semibold text-ink">
             {item.name}
           </span>
-          {product && (
+          {product?.maker && (
             <span className="text-xs text-muted">{product.maker}</span>
           )}
         </div>

@@ -106,3 +106,10 @@ export function fetchProduct(goodId: string) {
     goodId,
   });
 }
+
+// 상품 전체 목록 (goodId 없이)
+export function fetchProducts() {
+  return requestKca<KcaProduct>("/getProductInfoSvc.do", {
+    ServiceKey: getServiceKey(),
+  });
+}
