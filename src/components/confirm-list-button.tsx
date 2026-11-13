@@ -30,7 +30,7 @@ export function ConfirmListButton({
   const items = useCartStore((s) => s.items); // 지금 장바구니 상품들
   const clear = useCartStore((s) => s.clear); // 장바구니 비우기
   const addList = useListStore((s) => s.addList); // 리스트 저장
-  const mart = useMartStore((s) => s.marts.home); // 지금 고른 내 매장 (ID + 이름)
+  const mart = useMartStore((s) => s.mart); // 지금 고른 내 매장 (ID + 이름)
 
   /** 버튼을 눌렀을 때 */
   const handleConfirm = () => {

@@ -1,7 +1,7 @@
 "use client"; // store와 hook을 쓰니까 클라이언트 컴포넌트
 
 import { useCartStore } from "@/stores/cart-store-provider"; // 장바구니 아이템, 복원 여부
-import { useMartLabels, useMartStore } from "@/stores/mart-store-provider"; // 선택한 매장
+import { useMartName, useMartStore } from "@/stores/mart-store-provider"; // 내 매장 이름, 매장 store
 import { usePriceSnapshot } from "@/hooks/use-price-snapshot"; // 서버에서 가격 받아오기
 import { calcCartChange } from "@/lib/price-change"; // 장바구니 전체 변동 계산
 import { formatSurveyDate } from "@/lib/price"; // "11월 6일" 만들기
@@ -19,9 +19,9 @@ export default function Home() {
   // localStorage에서 장바구니를 다 불러왔는지
   const hasHydrated = useCartStore((s) => s.hasHydrated);
   // 내 매장 ID (예: '946'). 이걸로 서버에 가격을 요청해요
-  const martId = useMartStore((s) => s.marts.home.entpId);
+  const martId = useMartStore((s) => s.mart.entpId); // 내 매장 ID (예: '946')
   // 내 매장 짧은 이름 (예: '천호점')
-  const martName = useMartLabels().home;
+  const martName = useMartName(); // 내 매장 짧은 이름 (예: '천호점')
 
   // 서버에서 가격 받아오기 → { status: 'loading' | 'error' | 'success', ... }
   const priceState = usePriceSnapshot(martId);
