@@ -33,7 +33,10 @@ export default function Home() {
   return (
     <div>
       {/* 헤더: 복원 전에는 상품 수를 숨겨요 (0개로 깜빡이지 않게) */}
-      <CartHeader itemCount={hasHydrated ? items.length : null} />
+      <CartHeader
+        itemCount={hasHydrated ? items.length : null}
+        martName={martName}
+      />
       {/* 즐겨찾기 칩: 누르면 장바구니에 담겨요 */}
       <FavoriteChips favorites={mockFavorites} />
 
